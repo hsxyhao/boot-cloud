@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: @project.artifactId@
+server:
+  port: 8090
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8787/eureka/
+feign:
+  hystrix:
+    enabled: true

@@ -1,0 +1,21 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8787/eureka/
+spring:
+  application:
+    name: provider-consumer-provider
+---
+server:
+  port: 8080
+spring:
+  profiles: master
+hello:
+  msg: Good morning!
+---
+server:
+  port: 8081
+spring:
+  profiles: salver
+hello:
+  msg: Good afternoon!
