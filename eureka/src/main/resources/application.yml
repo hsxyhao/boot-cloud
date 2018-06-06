@@ -1,0 +1,55 @@
+---
+spring:
+  application:
+    name: eureka-server-single
+  profiles: single
+server:
+  port: 8000
+eureka:
+  instance:
+    hostname: single
+  client:
+    service-url:
+      defaultZone: http://localhost:8001/eureka/
+    #×÷Îªµ¥»ú²¿Êð²»ÐèÒªÏëÆðËû·þÎñÖÐÐÄ×¢²á#
+    fetch-registry: false
+    register-with-eureka: false
+---
+spring:
+  application:
+    name: eureka-server-cluster1
+  profiles: peer1
+server:
+  port: 8000
+eureka:
+  instance:
+    hostname: peer1
+  client:
+    service-url:
+      defaultZone: http://peer2:8001/eureka/,http://peer3:8002/eureka/
+---
+spring:
+  application:
+    name: eureka-server-cluster2
+  profiles: peer2
+server:
+  port: 8001
+eureka:
+  instance:
+    hostname: peer2
+  client:
+    service-url:
+      defaultZone: http://peer1:8000/eureka/,http://peer3:8002/eureka/
+---
+spring:
+  application:
+    name: eureka-server-cluster3
+  profiles: cluster3
+server:
+  port: 8002
+eureka:
+  instance:
+    hostname: peer3
+  client:
+    service-url:
+      defaultZone: http://peer1:8001/eureka/,http://peer2:8000/eureka/
