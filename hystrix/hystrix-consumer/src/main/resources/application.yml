@@ -1,0 +1,12 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8762/eureka/
+spring:
+  application:
+    name: @project.artifactId@
+server:
+  port: 8001
+feign:
+  hystrix:
+    enabled: true
