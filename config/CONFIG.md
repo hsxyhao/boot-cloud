@@ -45,7 +45,7 @@ label来表示，然后程序才能正确转换成web接口，具体访问路径
 ### 客户端的坑
 客户端看似简单，只需要配置一下引导上下文以及添加包依赖就行了，但是在实验的过程中有可能会出现的一个现象:客户端没有报错
 正常退出，并没有出现常规的一直等待现象，因为一般的web程序都会一直监听用户的请求怎么会自动退出呢?这是由于pom没有添加
-spring-boot的web启动依赖，客户端需要单独添加，服务端不需要，解决问题网站:[IntelliJ Process finished with exit code 0 when spring-boot run
+spring-boot的web启动依赖，客户端需要单独添加，服务端不需要，解决问题网站:[Idea Process finished with exit code 0 when spring-boot run
 ](https://stackoverflow.com/questions/32758996/intellij-process-finished-with-exit-code-0-when-spring-boot-run)
 
 > 1. 添加依赖spring-cloud-starter-config，和服务端不一样
@@ -70,6 +70,17 @@ spring-boot的web启动依赖，客户端需要单独添加，服务端不需要
 > 2. 添加post-commit执行脚本，已上传至cloud config项目资源文件夹下的git_hooks
 ### 高可用config服务
 以上步骤在功能上已经基本完成，但是很显然称不上高可用，不符合微服务的理念，所以还需要对项目进行改造，将
-服务端服务化，这样服务端和客户端耦合就不会这么高，服务端ip更改之后也不用再在客户端进行修改。
+服务端服务化，这样服务端和客户端耦合就不会这么高，服务端ip更改之后也不用再在客户端进行修改。简而言之就
+是将config的客户端和服务端注册到eureka服务中心，以便扩展和维护。
+
+新建一个eureka服务中心项目
+
+config-server服务端改造
+1. 添加eureka服务依赖，并添加eureka配置，启动类加上注解
+
+config-client客户端改造
+1. 去除spring.cloud.config.uri属性
+2. 添加eureka服务依赖，启动类加上注解
+3. 在引导上下文配置文件中配置添加eureka配置以及配置spring.cloud.discovery下的enabled和serviceId属性  
 
 ### spring cloud bus:消息总线
