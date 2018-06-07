@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "executing post-commit"
+curl -X POST http://localhost:8002/refresh
+exit 0

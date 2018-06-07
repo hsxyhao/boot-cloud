@@ -57,5 +57,8 @@ spring-boot的web启动依赖，客户端需要单独添加，服务端不需要
 > 当修改远程的配置文件之后，可以访问客户端POST:/refresh接口更新配置。
 ### 使用git hook优化客户端刷新refresh
 虽然客户端可以访问refresh接口刷新配置，但是不能每次修改都需要人工的去访问更新接口，
-这里使用Git hooks-post-commit进行优化，每次修改提交之后，git自动访问
+这里使用Git hooks-post-commit进行优化，每次修改提交之后，git自动访问。
+> 配置git hooks，[参考链接地址](https://stackoverflow.com/questions/5697210/msysgit-error-with-hooks-git-error-cannot-spawn-git-hooks-post-commit-no-su)
+> 1. 进入.git隐藏目录，创建post-commit文件
+> 2. 添加post-commit执行脚本
 ### 高可用config服务
