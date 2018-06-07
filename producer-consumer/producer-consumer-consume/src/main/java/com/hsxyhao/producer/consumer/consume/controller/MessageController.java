@@ -2,6 +2,7 @@ package com.hsxyhao.producer.consumer.consume.controller;
 
 import com.hsxyhao.producer.consumer.consume.feign.HelloRemote;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
