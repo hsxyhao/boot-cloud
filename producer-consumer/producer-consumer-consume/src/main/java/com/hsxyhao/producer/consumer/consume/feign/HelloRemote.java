@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author wanghao
  * create 2018-06-06 15:32
  **/
-@FeignClient(name = "provider-consumer-provider",fallback = HelloRemoteImpl.class,primary = false)
+@FeignClient(name = "provider-consumer-provider",fallback = HelloRemoteImpl.class)
 public interface HelloRemote {
 
     /**

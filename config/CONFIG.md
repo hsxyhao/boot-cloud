@@ -1,6 +1,12 @@
 ## Cloud Config 
+**摘要**：
+随着线上项目变的日益庞大，每个项目都散落着各种配置文件，如果采用分布式的开发模式，需要的配置文件随着服务增加而不断增多。
+某一个基础服务信息变更，都会引起一系列的更新和重启，运维苦不堪言也容易出错。配置中心便是解决此类问题的灵丹妙药。
+市面上开源的配置中心有很多，BAT每家都出过，360的QConf、淘宝的diamond、百度的disconf都是解决这类问题。
+国外也有很多开源的配置中心Apache Commons Configuration、owner、cfg4j等等。这些开源的软件以及解决方案都很优秀，
+但是我最钟爱的却是Spring Cloud Config，因为它功能全面强大，可以无缝的和spring体系相结合，够方便够简单颜值高我喜欢。
 ### 配置从本地读取配置文件
-参考了网上的一些博客，大部分都是配置github远程仓库的，对于一些特殊用户（没有账户，懒，特殊需求）来说
+参考了网上的一些博客，大部分都是配置github远程仓库的，对于一些特殊用户（没有账户，懒，特殊需求等用户）来说
 没有参考范文，虽然也发现了几篇带有本地文件配置的文章，但是说的不清不白的，对于初学者来说还是很混乱的，
 这边具体介绍一下以本地磁盘为仓库的配置。具体步骤如下：
 
@@ -43,13 +49,14 @@ spring-boot的web启动依赖，客户端需要单独添加，服务端不需要
 ](https://stackoverflow.com/questions/32758996/intellij-process-finished-with-exit-code-0-when-spring-boot-run)
 
 > 1. 添加依赖spring-cloud-starter-config，和服务端不一样
-> 2. 配置启动引导上下文
+> 2. application.yml中配置management:security:enabled: false
+> 3. 配置启动引导上下文
 
 **遗留问题**：虽然目前客户端在启动是加载到了远程的配置信息，但是对于配置信息的更改等操作无法及时响应。
 
 **验证流程**：1. 修改客户端应用的远程配置文件 2. 服务端检查是否更新 3. 服务端更新成功后再从客户端访问 4. 结果显示客户端并没有更新
 ### 客户端主动更新配置文件
-> 至此为止客户端已经可以在**启动**的时候拉取远程配置，但是对于远程的配置还不能实现实时的修改。
+> 至此为止客户端已经可以在**启动**的时候拉取远程配置，但是对于远程的配置还不能实现实时的更新。
 
 > 此时需要对客户端进行改造，添加spring-boot监控依赖[actuator],添加依赖之后需要在配置bean上添加RefreshScope注解，
 本实验添加在HelloConfigController上面。
@@ -59,6 +66,10 @@ spring-boot的web启动依赖，客户端需要单独添加，服务端不需要
 虽然客户端可以访问refresh接口刷新配置，但是不能每次修改都需要人工的去访问更新接口，
 这里使用Git hooks-post-commit进行优化，每次修改提交之后，git自动访问。
 > 配置git hooks，[参考链接地址](https://stackoverflow.com/questions/5697210/msysgit-error-with-hooks-git-error-cannot-spawn-git-hooks-post-commit-no-su)
-> 1. 进入.git隐藏目录，创建post-commit文件
-> 2. 添加post-commit执行脚本
+> 1. 进入.git隐藏目录，创建post-commit文件，没有后缀名
+> 2. 添加post-commit执行脚本，已上传至cloud config项目资源文件夹下的git_hooks
 ### 高可用config服务
+以上步骤在功能上已经基本完成，但是很显然称不上高可用，不符合微服务的理念，所以还需要对项目进行改造，将
+服务端服务化，这样服务端和客户端耦合就不会这么高，服务端ip更改之后也不用再在客户端进行修改。
+
+### spring cloud bus:消息总线
