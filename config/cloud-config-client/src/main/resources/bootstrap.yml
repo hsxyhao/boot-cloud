@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    config:
+      name: cloud-config-server
+      profile: dev
+      uri: http://localhost:8001/
