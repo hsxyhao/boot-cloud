@@ -1,0 +1,21 @@
+zuul:
+  SimpleHostRoutingFilter:
+    pre:
+      disabled: true
+  routes:
+    baidu:
+      path: /baidu/**
+      url: http://www.baidu.com
+  retryable: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8787/eureka/
+server:
+  port: 8090
+#对当前服务的重试次数
+ribbon:
+  MaxAutoRetries: 3
+  #切换相同Server的次数
+  MaxAutoRetriesNextServer: 0
