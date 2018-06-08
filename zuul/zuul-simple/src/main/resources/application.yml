@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: @project.artifactId@
+server:
+  port: 8888
+zuul:
+  routes:
+    blog:
+      path: /it/**
+      url: http://www.ityouknow.com/

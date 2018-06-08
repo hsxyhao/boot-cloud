@@ -19,7 +19,7 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        log.info("[ *] request provider controller");
+        log.info("[ *] request provider com.hsxyhao.zuul.controller");
         return new Hello(msg).getMsg();
     }
 

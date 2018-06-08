@@ -10,11 +10,10 @@
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>config</artifactId>
+    <artifactId>zuul</artifactId>
+
     <modules>
-        <module>cloud-config-server</module>
-        <module>cloud-config-client</module>
-        <module>cloud-config-eureka</module>
+        <module>zuul-simple</module>
     </modules>
 
 </project>
