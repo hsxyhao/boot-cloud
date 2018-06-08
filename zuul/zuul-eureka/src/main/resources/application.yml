@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: @project.artifactId@
+server:
+  port: 8888
+zuul:
+  routes:
+    test:
+      path: /baidu/**
+      url: http://www.baidu.com
+    provider:
+      path: /provider/**
+      serviceId: provider-consumer-provider
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8787/eureka/
