@@ -88,5 +88,26 @@ config虽然服务化之后，但是还是可以针对于refresh进行优化。�
 我们可以利用git hooks的机制每次提交代码发送请求来刷新客户端，当客户端越来越多的时候，需要每个客户端都执行一遍，这种方案就不太适合了。
 1. 安装RabbitMQ环境
 2. 客户端添加依赖spring-cloud-starter-bus-amqp
-3. 客户端**application**配置文件添加spring.rabbitmq.host和port配置
-4. 修改git hook或者webhook post地址为/bus/refresh不是原来的/refresh
+3. 客户端**application**配置文件中添加spring.rabbitmq.host和port配置
+4. 修改git hook或者WebHook post地址为/bus/refresh不是原来的/refresh
+
+### spring cloud bus:消息总线(server)
+客户端服务化之后一切看似都没有问题了，但是还是存在一些问题：
++ 打破了微服务的职责单一性。微服务本身是业务模块，它本不应该承担配置刷新的职责
++ 破坏了微服务各节点的对等性
++ 有一定的局限性。例如，微服务在迁移时，它的网络地址常常会发生变化，此时如果想要做到自动刷新，那就不得不修改WebHook（Git Hook）的配置
+
+将/bus/refresh请求转移至服务端
+1. 服务端添加spring-cloud-starter-bus-amqp依赖
+2. 在服务端配置文件添加spring.rabbitmq.host和port配置
+3. 修改git hook（WebHook）为服务端的消息总先地址
+
+失败场景：
+在配置服务端消息总线的时候出现一次失败情况，主要原因就是我去除了客户端关于消息总线的配置（依赖，rabbitmq配置属性）。
+其实主要还是我理解的方向有错误，不管是配置服务端的config bus还是客户端的config bus都需要连接到rabbitmq，只有连接
+到消息队列才能进行刷新。
+
+总结：
+虽然进行了一系列的cloud config实验，但是一般成熟的配置还是最终的server消息总线，一步一步改进的目的主要是了解为什么最终方案是
+最佳的。
+
