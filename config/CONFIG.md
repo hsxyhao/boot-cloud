@@ -83,4 +83,10 @@ config-client客户端改造
 2. 添加eureka服务依赖，启动类加上注解
 3. 在引导上下文配置文件中配置添加eureka配置以及配置spring.cloud.discovery下的enabled和serviceId属性  
 
-### spring cloud bus:消息总线
+### spring cloud bus:消息总线(client)
+config虽然服务化之后，但是还是可以针对于refresh进行优化。如果需要客户端获取到最新的配置信息需要执行refresh，
+我们可以利用git hooks的机制每次提交代码发送请求来刷新客户端，当客户端越来越多的时候，需要每个客户端都执行一遍，这种方案就不太适合了。
+1. 安装RabbitMQ环境
+2. 客户端添加依赖spring-cloud-starter-bus-amqp
+3. 客户端**application**配置文件添加spring.rabbitmq.host和port配置
+4. 修改git hook或者webhook post地址为/bus/refresh不是原来的/refresh

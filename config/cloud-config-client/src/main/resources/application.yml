@@ -1,8 +1,23 @@
 spring:
   application:
     name: @project.artifactId@
-server:
-  port: 8002
+  cloud:
+    bus:
+      trace:
+        enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
 management:
   security:
     enabled: false
+---
+server:
+  port: 8002
+spring:
+  profiles: client1
+---
+server:
+  port: 8003
+spring:
+  profiles: client2
