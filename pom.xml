@@ -17,6 +17,7 @@
         <module>config</module>
         <module>zuul</module>
         <module>zuul</module>
+        <module>sleuth-zipkin</module>
     </modules>
 
     <properties>
