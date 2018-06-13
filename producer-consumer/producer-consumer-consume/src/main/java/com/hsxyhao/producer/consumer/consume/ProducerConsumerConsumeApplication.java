@@ -13,7 +13,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @EnableFeignClients
 public class ProducerConsumerConsumeApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProducerConsumerConsumeApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ProducerConsumerConsumeApplication.class, args);
+    }
 }
